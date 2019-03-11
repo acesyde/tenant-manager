@@ -1,10 +1,13 @@
-﻿namespace Sample.Domain.Tenant.ReadModels
+﻿using Sample.Infrastructure;
+
+namespace Sample.Domain.Tenant.ReadModels
 {
-    public class TenantReadModel
+    public class TenantReadModel : BaseEntity
     {
         public string Name { get; private set; }
 
-        public TenantReadModel(string name)
+        public TenantReadModel(string id, string name)
+            : base(id)
         {
             Name = name;
         }

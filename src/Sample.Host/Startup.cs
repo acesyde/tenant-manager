@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Domain.Tenant;
 using Sample.Domain.Tenant.Repositories;
@@ -13,10 +14,18 @@ namespace Sample.Host
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
+
+        public Startup(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             RegisterAkka(services);
 
+            services.Configure<Infrastructure.Mongo.Settings>(_configuration.GetSection("mongo"));
             services.AddScoped<IMongoRepository, MongoRepository>();
             services
                 .AddMvc()
