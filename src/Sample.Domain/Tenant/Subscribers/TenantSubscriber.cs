@@ -1,9 +1,7 @@
-﻿using Akkatecture.Aggregates;
+﻿using Akka.Actor;
+using Akkatecture.Aggregates;
 using Akkatecture.Subscribers;
 using Sample.Domain.Tenant.Events;
-using Sample.Domain.Tenant.Queries;
-using Sample.Domain.Tenant.ReadModels;
-using Sample.Infrastructure.Repositories;
 using System;
 using System.Threading.Tasks;
 
@@ -13,28 +11,21 @@ namespace Sample.Domain.Tenant.Subscribers
         , ISubscribeToAsync<TenantAggregate, TenantId, TenantCreatedEvent>
         , ISubscribeToAsync<TenantAggregate, TenantId, TenantArchivedEvent>
     {
-        private readonly IMongoRepository _mongoRepository;
+        public IActorRef TenantRepository { get; }
 
-        public TenantSubscriber(IMongoRepository mongoRepository)
+        public TenantSubscriber(IActorRef tenantRepository)
         {
-            _mongoRepository = mongoRepository;
-
-            ReceiveAsync<GetTenantQuery>(Handle);
+            TenantRepository = tenantRepository;
         }
 
-        public async Task HandleAsync(IDomainEvent<TenantAggregate, TenantId, TenantCreatedEvent> domainEvent)
+        public Task HandleAsync(IDomainEvent<TenantAggregate, TenantId, TenantCreatedEvent> domainEvent)
         {
-            await _mongoRepository.InsertAsync(new TenantReadModel(domainEvent.AggregateEvent.Name));
+            throw new NotImplementedException();
         }
 
         public Task HandleAsync(IDomainEvent<TenantAggregate, TenantId, TenantArchivedEvent> domainEvent)
         {
             throw new NotImplementedException();
-        }
-
-        private async Task Handle(GetTenantQuery arg)
-        {
-            await _mongoRepository.FindByIdAsync<TenantReadModel>(arg.Id);
         }
     }
 }

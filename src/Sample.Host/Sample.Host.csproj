@@ -6,13 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Akka.DI.Core" Version="1.3.11" />
     <PackageReference Include="Akkatecture" Version="0.4.2" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj" />
+    <ProjectReference Include="..\Sample.Infrastructure.Mongo\Sample.Infrastructure.Mongo.csproj" />
     <ProjectReference Include="..\Sample.Infrastructure\Sample.Infrastructure.csproj" />
   </ItemGroup>
 
